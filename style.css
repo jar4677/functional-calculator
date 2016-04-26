@@ -19,7 +19,6 @@ body {
     top: 5%;
     display: inline-block;
     margin: auto;
-    /*background-color: aqua;*/
 }
 
 .readout {
@@ -29,42 +28,37 @@ body {
     text-align: right;
     box-sizing: border-box;
     padding: .95em;
-    /*background-color: brown;*/
 }
 
 .button-area {
     height: 83.33%;
     width: 100%;
     position: relative;
-    /*background-color: orange;*/
 }
 
 .digits {
     height: 80%;
     width: 75%;
     float: left;
-    /*background-color: pink;*/
 }
 
 .operators {
     height: 80%;
     width: 25%;
     float: left;
-    /*background-color: chartreuse;*/
 }
 
 .clear {
     height: 20%;
     width: 100%;
     clear: both;
-    /*background-color: purple;*/
 }
 
 .button {
     box-sizing: border-box;
     padding: .95em;
-    /*background-color: yellow;*/
 }
+
 .digits .button {
     height: 25%;
     width: 33.3%;

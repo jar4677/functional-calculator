@@ -3,37 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <title>Calculator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="mobile-style.css">
 </head>
 <body>
 <div class="background">
     <div class="calculator">
         <div class="readout">1234567890</div>
         <div class="button-area">
-            <div class="buttons">
-                <div class="button">7</div>
-                <div class="button">8</div>
-                <div class="button">9</div>
-                <div class="button">4</div>
-                <div class="button">5</div>
-                <div class="button">6</div>
-                <div class="button">1</div>
-                <div class="button">2</div>
-                <div class="button">3</div>
-                <div class="button">.</div>
-                <div class="button">0</div>
-                <div class="button">=</div>
-            </div>
-            <div class="operations">
-                <div class="button">/</div>
-                <div class="button">x</div>
-                <div class="button">-</div>
-                <div class="button">+</div>
-            </div>
-            <div class="clear">
-                <div class="button">C</div>
-                <div class="button">CA</div>
-            </div>
+            <section class="digits">
+                <div class="button digit">7</div>
+                <div class="button digit">8</div>
+                <div class="button digit">9</div>
+                <div class="button digit">4</div>
+                <div class="button digit">5</div>
+                <div class="button digit">6</div>
+                <div class="button digit">1</div>
+                <div class="button digit">2</div>
+                <div class="button digit">3</div>
+                <div class="button digit">0</div>
+                <div class="button decimal">.</div>
+                <div class="button equals">=</div>
+            </section>
+            <section class="operators">
+                <div class="button operator">/</div>
+                <div class="button operator">x</div>
+                <div class="button operator">-</div>
+                <div class="button operator">+</div>
+            </section>
+            <section class="clear">
+                <div class="button">Clear</div>
+                <div class="button">Clear All</div>
+            </section>
         </div>
     </div>
 </div>

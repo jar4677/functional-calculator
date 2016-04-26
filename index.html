@@ -5,7 +5,7 @@
     <title>Calculator</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-    <script src="http://Learning-Fuze.github.io/calculator/calculator.js"></script>
+    <!--<script src="http://Learning-Fuze.github.io/calculator/calculator.js"></script>-->
     <script src="script.js"></script>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="mobile-style.css">
@@ -16,28 +16,28 @@
         <div id="readout"></div>
         <div class="button-area">
             <section class="digits">
-                <div class="button digit" data-value="7">7</div>
-                <div class="button digit" data-value="8">8</div>
-                <div class="button digit" data-value="9">9</div>
-                <div class="button digit" data-value="4">4</div>
-                <div class="button digit" data-value="5">5</div>
-                <div class="button digit" data-value="6">6</div>
-                <div class="button digit" data-value="1">1</div>
-                <div class="button digit" data-value="2">2</div>
-                <div class="button digit" data-value="3">3</div>
-                <div class="button digit" data-value="0">0</div>
-                <div class="button decimal" data-value=".">.</div>
-                <div class="button equals" data-value="=">=</div>
+                <div class="button digit" data-type="number" data-value="7">7</div>
+                <div class="button digit" data-type="number" data-value="8">8</div>
+                <div class="button digit" data-type="number" data-value="9">9</div>
+                <div class="button digit" data-type="number" data-value="4">4</div>
+                <div class="button digit" data-type="number" data-value="5">5</div>
+                <div class="button digit" data-type="number" data-value="6">6</div>
+                <div class="button digit" data-type="number" data-value="1">1</div>
+                <div class="button digit" data-type="number" data-value="2">2</div>
+                <div class="button digit" data-type="number" data-value="3">3</div>
+                <div class="button digit" data-type="number" data-value="0">0</div>
+                <div class="button decimal" data-type="decimal" data-value=".">.</div>
+                <div class="button equals" data-type="equalSign" data-value="=">=</div>
             </section>
             <section class="operators">
-                <div class="button operator" data-value="/">/</div>
-                <div class="button operator" data-value="x">x</div>
-                <div class="button operator" data-value="-">-</div>
-                <div class="button operator" data-value="+">+</div>
+                <div class="button operator" data-type="operator" data-value="/">/</div>
+                <div class="button operator" data-type="operator" data-value="*">x</div>
+                <div class="button operator" data-type="operator" data-value="-">-</div>
+                <div class="button operator" data-type="operator" data-value="+">+</div>
             </section>
             <section class="clear">
-                <div class="button" data-value="C">C</div>
-                <div class="button" data-value="AC">AC</div>
+                <div class="button" data-type="clear" data-value="C">C</div>
+                <div class="button" data-type="clear" data-value="AC">AC</div>
             </section>
         </div>
     </div>

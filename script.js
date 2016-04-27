@@ -48,37 +48,53 @@ function keyPress(event) {
     }
 }
 
+//type functions
+function numberEntry(value) {
+    array1.push(value);
+    $("#readout").text(array1.join(''));
+}
+
+function decimalEntry() {
+    if (array1.indexOf(".") == -1) {
+        array1.push(".");
+    }
+    $("#readout").text(array1.join(''));
+}
+
+function operatorEntry(value) {
+    //this is really ugly, fix this
+    var temp = typeof array2[array2.length - 1];
+    if (temp == 'number' || ( temp == 'undefined' && array1.length != 0)){
+        array2.push(parseFloat(array1.join('')), value);
+        $("#readout").text(value);
+        array1 = [];
+    } else if (temp == 'string'){
+        array2[array2.length -1] = value;
+        $("#readout").text(value);
+    }
+}
+
+function equalSignEntry() {
+    array2.push(parseFloat(array1.join('')));
+    $("#readout").text(eval(array2.join('')));
+}
+
+//object constructor
 function Calc() {
 
     this.dataEntry = function (type, value) {
         switch (type) {
             case 'number':
-                array1.push(value);
-                $("#readout").text(array1.join(''));
-                break;
-            case 'operator':
-
-                //this is really ugly, fix this
-                var temp = typeof array2[array2.length - 1];
-                if (temp == 'number' || temp == 'undefined'){
-                    array2.push(parseFloat(array1.join('')), value);
-                    $("#readout").text(value);
-                    array1 = [];
-                } else {
-                    array2[array2.length -1] = value;
-                    $("#readout").text(value);
-                }
-
+                numberEntry(value);
                 break;
             case 'decimal':
-                if (array1.indexOf(".") == -1) {
-                    array1.push(value);
-                }
-                $("#readout").text(array1.join(''));
+                decimalEntry();
+                break;
+            case 'operator':
+                operatorEntry(value);
                 break;
             case 'equalSign':
-                array2.push(parseFloat(array1.join('')));
-                $("#readout").text(eval(array2.join('')));
+                equalSignEntry();
                 break;
             default:
                 array1 = [];
@@ -88,16 +104,16 @@ function Calc() {
     }
 }
 
+//object instantiation
 var calculator = new Calc();
 
+//event handlers
 $(document).ready(function () {
     $('body').on('keypress', keyPress);
 
     $(".button").click(function () {
         var type = $(this).attr("data-type");
         var value = $(this).attr("data-value");
-
-        // console.log('type: ' + type + ' value: ' + value);
 
         calculator.dataEntry(type, value);
     })

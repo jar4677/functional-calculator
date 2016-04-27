@@ -10,6 +10,9 @@ var lastEntry = null;
 
 var result = null;
 
+var tempNum = null;
+var tempOp = null;
+
 //keypress function (rework)
 function keyPress(event) {
     var key = String.fromCharCode(event.which);
@@ -48,11 +51,20 @@ function keyPress(event) {
     }
 }
 
+//redout function
+function display(value) {
+    $("#readout").text(value);
+    $("#ticker").text(evalArray.join(' '));
+}
+
 //type functions
 function numberEntry(value) {
+    if (lastEntry == 'equalSign'){
+        evalArray =[];
+    }
     entryArray.push(value);
     lastEntry = 'number';
-    $("#readout").text(entryArray.join(''));
+    display(entryArray.join(''));
 }
 
 function decimalEntry() {
@@ -60,7 +72,7 @@ function decimalEntry() {
         entryArray.push(".");
         lastEntry = 'number';
     }
-    $("#readout").text(entryArray.join(''));
+    display(entryArray.join(''));
 }
 
 function operatorEntry(value) {
@@ -68,37 +80,56 @@ function operatorEntry(value) {
     //this is less ugly, still fix this
     if (lastEntry == "number"){
         evalArray.push(parseFloat(entryArray.join('')), value);
-        $("#readout").text(value);
+        display(value);
         entryArray = [];
         lastEntry = 'operator';
     } else if (lastEntry == "operator"){
         evalArray[evalArray.length - 1] = value;
-        $("#readout").text(value);
+        display(value);
         lastEntry = 'operator';
     } else if (lastEntry == "equalSign"){
-        evalArray.push(value, result);
-        $("#readout").text(value);
+        // evalArray.push(value, result);
+        evalArray.push(value);
+        display(value);
         entryArray = [];
-        lastEntry = 'number';
+        lastEntry = 'operator';
     }
 
 }
 
 function equalSignEntry() {
     if (lastEntry == "number"){
-        evalArray.push(parseFloat(entryArray.join('')));
-        result = eval(evalArray.join(''));
-        console.log(result);
+        if (evalArray.length == 0){
+            evalArray.push(parseFloat(entryArray.join('')), tempOp, tempNum);
+        }
+        if (entryArray.length != 0){
+            evalArray.push(parseFloat(entryArray.join('')));
+        }
+        tempNum = evalArray[evalArray.length - 1];
+        tempOp = evalArray[evalArray.length - 2];
         lastEntry = 'equalSign';
     } else if (lastEntry == "operator"){
         var tempArray = evalArray.slice(0,evalArray.length -1);
-        console.log(tempArray);
-        result = eval(tempArray.join(''));
+        evalArray.push(eval(tempArray.join('')));
+        tempNum = evalArray[evalArray.length - 1];
+        tempOp = evalArray[evalArray.length - 2];
+        lastEntry = 'equalSign';
+    } else if (lastEntry == 'equalSign'){
+        // tempNum = evalArray[evalArray.length - 1];
+        // tempOp = evalArray[evalArray.length - 2];
+        evalArray.push(tempOp, tempNum);
     }
 
+    result = eval(evalArray.join(''));
+    console.log('tempNum: ' + tempNum);
+    console.log('tempOp: ' + tempOp);
+    console.log('result: ' + result);
+
     entryArray = [];
-    entryArray.push(result);
-    $("#readout").text(result);
+    evalArray = [];
+    evalArray.push(result);
+    // entryArray.push(result);
+    display(result);
 }
 
 function clearEntry(value){
@@ -107,7 +138,7 @@ function clearEntry(value){
         lastEntry = null;
     }
     entryArray = [];
-    $("#readout").text('');
+    display('');
 }
 
 //object constructor

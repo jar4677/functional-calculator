@@ -134,9 +134,16 @@ function clearEntry(value) {
     if (value == 'AC') {
         evalArray = [];
         lastEntry = null;
+        entryArray = [];
+        display('');
+    } else if (value == 'C'){
+        entryArray = [];
+        display('');
+    } else {
+        entryArray.pop();
+        display(entryArray.join(''));
     }
-    entryArray = [];
-    display('');
+
 }
 
 //object constructor

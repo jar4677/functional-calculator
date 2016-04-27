@@ -3,25 +3,23 @@
  */
 
 var entryArray = [];
-
 var evalArray = [];
-
 var lastEntry = null;
-
 var result = null;
-
 var tempNum = null;
 var tempOp = null;
 
-
 //keypress function (rework)
-function keyPress(event) {
-    var key = String.fromCharCode(event.which);
+function keyPress(key) {
+    // //identifies the key based on the event listener
+    // var key = String.fromCharCode(event.which);
+    //
+    // //changes 'Enter' to '='
+    // if (event.which == 13) {
+    //     key = "=";
+    // }
 
-    if (event.which == 13) {
-        key = "=";
-    }
-
+    //calls method based on the value of the key
     switch (key) {
         case '0':
         case '1':
@@ -47,19 +45,23 @@ function keyPress(event) {
         case '=':
             calculator.dataEntry('equalSign', key);
             break;
+        case 'AC':
+        case 'C':
+        case 'B':
+            calculator.dataEntry('clear', key);
+            break;
         default:
-
     }
 }
 
 
-//redout function
+//readout function
 function display(value) {
     $("#readout").text(value);
     // $("#ticker").text(evalArray.join(' '));
 }
 
-//type functions
+//entry type functions
 function numberEntry(value) {
     if (lastEntry == 'equalSign') {
         evalArray = [];
@@ -75,11 +77,9 @@ function decimalEntry() {
         lastEntry = 'number';
     }
     display(entryArray.join(''));
-
 }
 
 function operatorEntry(value) {
-
     //this is less ugly, still fix this
     if (lastEntry == "number") {
         evalArray.push(parseFloat(entryArray.join('')), value);
@@ -97,7 +97,6 @@ function operatorEntry(value) {
         entryArray = [];
         lastEntry = 'operator';
     }
-
 }
 
 function equalSignEntry() {
@@ -117,16 +116,17 @@ function equalSignEntry() {
         tempOp = evalArray[evalArray.length - 2];
         lastEntry = 'equalSign';
     } else if (lastEntry == 'equalSign') {
-        // tempNum = evalArray[evalArray.length - 1];
-        // tempOp = evalArray[evalArray.length - 2];
         evalArray.push(tempOp, tempNum);
     }
 
+    //run the calculation on the evalArray
     result = eval(evalArray.join(''));
 
+    //reset arrays
     entryArray = [];
     evalArray = [];
     evalArray.push(result);
+
     display(result);
 }
 
@@ -170,7 +170,31 @@ var calculator = new Calc();
 
 //event handlers
 $(document).ready(function () {
-    $('body').on('keypress', keyPress);
+    // $('body').on('keypress', keyPress);
+
+    $('body').bind('keypress keyup', function (event) {
+        var key = null;
+        if (event.type == 'keypress') {
+            key = String.fromCharCode(event.which);
+            if(event.which == 13){
+                key = '=';
+            }
+        } else if (event.type == 'keyup'){
+            var keyCode = event.keyCode;
+            if (keyCode == 27) {
+                key = 'AC';
+            } else if (keyCode == 46 ){
+                key = 'C'
+            } else if (keyCode == 8){
+                key = 'B'
+            }
+
+        }
+
+        if (key != null){
+            keyPress(key);
+        }
+    });
 
     $(".button").click(function () {
         var type = $(this).attr("data-type");

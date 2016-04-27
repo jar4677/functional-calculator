@@ -2,18 +2,20 @@
  * Created by jar4677 on 4/25/16.
  */
 
-var array1 = [];
+var entryArray = [];
 
-var array2 = [];
+var evalArray = [];
 
-//keypress function
+var lastEntry = null;
+
+var result = null;
+
+//keypress function (rework)
 function keyPress(event) {
     var key = String.fromCharCode(event.which);
 
     if (event.which == 13){
         key = "="
-    } else if (event.which == 27 || event.which == 127){
-        key = "C"
     }
 
     switch (key){
@@ -41,8 +43,6 @@ function keyPress(event) {
         case '=':
             calculator.dataEntry('equalSign', key);
             break;
-        case 'C':
-            calculator.dataEntry('clear', key);
         default:
             console.log(event.which);
     }
@@ -50,33 +50,64 @@ function keyPress(event) {
 
 //type functions
 function numberEntry(value) {
-    array1.push(value);
-    $("#readout").text(array1.join(''));
+    entryArray.push(value);
+    lastEntry = 'number';
+    $("#readout").text(entryArray.join(''));
 }
 
 function decimalEntry() {
-    if (array1.indexOf(".") == -1) {
-        array1.push(".");
+    if (entryArray.indexOf(".") == -1) {
+        entryArray.push(".");
+        lastEntry = 'number';
     }
-    $("#readout").text(array1.join(''));
+    $("#readout").text(entryArray.join(''));
 }
 
 function operatorEntry(value) {
-    //this is really ugly, fix this
-    var temp = typeof array2[array2.length - 1];
-    if (temp == 'number' || ( temp == 'undefined' && array1.length != 0)){
-        array2.push(parseFloat(array1.join('')), value);
+
+    //this is less ugly, still fix this
+    if (lastEntry == "number"){
+        evalArray.push(parseFloat(entryArray.join('')), value);
         $("#readout").text(value);
-        array1 = [];
-    } else if (temp == 'string'){
-        array2[array2.length -1] = value;
+        entryArray = [];
+        lastEntry = 'operator';
+    } else if (lastEntry == "operator"){
+        evalArray[evalArray.length - 1] = value;
         $("#readout").text(value);
+        lastEntry = 'operator';
+    } else if (lastEntry == "equalSign"){
+        evalArray.push(value, result);
+        $("#readout").text(value);
+        entryArray = [];
+        lastEntry = 'number';
     }
+
 }
 
 function equalSignEntry() {
-    array2.push(parseFloat(array1.join('')));
-    $("#readout").text(eval(array2.join('')));
+    if (lastEntry == "number"){
+        evalArray.push(parseFloat(entryArray.join('')));
+        result = eval(evalArray.join(''));
+        console.log(result);
+        lastEntry = 'equalSign';
+    } else if (lastEntry == "operator"){
+        var tempArray = evalArray.slice(0,evalArray.length -1);
+        console.log(tempArray);
+        result = eval(tempArray.join(''));
+    }
+
+    entryArray = [];
+    entryArray.push(result);
+    $("#readout").text(result);
+}
+
+function clearEntry(value){
+    if (value == 'AC'){
+        evalArray = [];
+        lastEntry = null;
+    }
+    entryArray = [];
+    $("#readout").text('');
 }
 
 //object constructor
@@ -96,11 +127,14 @@ function Calc() {
             case 'equalSign':
                 equalSignEntry();
                 break;
+            case 'clear':
+                clearEntry(value);
+                break;
             default:
-                array1 = [];
-                array2 = [];
-                $("#readout").text('');
         }
+        console.log('entryArray: ' + entryArray);
+        console.log('evalArray: ' + evalArray);
+        console.log('last entry: ' + lastEntry);
     }
 }
 

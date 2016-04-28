@@ -16,24 +16,34 @@ body {
     height: 600px;
     width: 400px;
     position: relative;
-    top: 5%;
+    top: 0;
     display: inline-block;
     margin: auto;
 }
 
-#ticker{
-    height: 1em;
-    font-size: 14px;
-    text-align: right;
-}
-
-#readout {
+.display-area {
     height: 16.66%;
     width: 100%;
     position: relative;
     text-align: right;
     box-sizing: border-box;
-    padding: .95em;
+    padding: 0 .95em;
+}
+
+#ticker {
+    /*height: 1em;*/
+    font-size: 14px;
+    margin: 0;
+    position: absolute;
+    top: 15%;
+    right: 10%;
+}
+
+#readout {
+    margin: 0;
+    position: absolute;
+    bottom: 0px;
+    right: 10%;
 }
 
 .button-area {

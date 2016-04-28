@@ -11,14 +11,6 @@ var tempOp = null;
 
 //keypress function (rework)
 function keyPress(key) {
-    // //identifies the key based on the event listener
-    // var key = String.fromCharCode(event.which);
-    //
-    // //changes 'Enter' to '='
-    // if (event.which == 13) {
-    //     key = "=";
-    // }
-
     //calls method based on the value of the key
     switch (key) {
         case '0':
@@ -53,7 +45,6 @@ function keyPress(key) {
         default:
     }
 }
-
 
 //readout function
 function display(value) {

@@ -8,6 +8,7 @@ var lastEntry = null;
 var result = null;
 var tempNum = null;
 var tempOp = null;
+var tickerDisplay = [];
 
 //keypress function (rework)
 function keyPress(key) {
@@ -49,7 +50,7 @@ function keyPress(key) {
 //readout function
 function display(value) {
     $("#readout").text(value);
-    // $("#ticker").text(evalArray.join(' '));
+    $("#ticker").text(tickerDisplay.join(' '));
 }
 
 //entry type functions
@@ -59,14 +60,19 @@ function numberEntry(value) {
     }
     entryArray.push(value);
     lastEntry = 'number';
+    tickerDisplay = [evalArray.join(' '), entryArray.join('')];
     display(entryArray.join(''));
 }
 
 function decimalEntry() {
+    if (lastEntry == 'equalSign') {
+        evalArray = [];
+    }
     if (entryArray.indexOf(".") == -1) {
         entryArray.push(".");
         lastEntry = 'number';
     }
+    tickerDisplay = [evalArray.join(' '), entryArray.join('')];
     display(entryArray.join(''));
 }
 
@@ -74,20 +80,17 @@ function operatorEntry(value) {
     //this is less ugly, still fix this
     if (lastEntry == "number") {
         evalArray.push(parseFloat(entryArray.join('')), value);
-        display(value);
         entryArray = [];
-        lastEntry = 'operator';
     } else if (lastEntry == "operator") {
         evalArray[evalArray.length - 1] = value;
-        display(value);
-        lastEntry = 'operator';
     } else if (lastEntry == "equalSign") {
-        // evalArray.push(value, result);
         evalArray.push(value);
-        display(value);
         entryArray = [];
-        lastEntry = 'operator';
     }
+
+    tickerDisplay = [evalArray.join(' '), entryArray.join('')];
+    display(value);
+    lastEntry = 'operator';
 }
 
 function equalSignEntry() {
@@ -99,13 +102,12 @@ function equalSignEntry() {
         }
         tempNum = evalArray[evalArray.length - 1];
         tempOp = evalArray[evalArray.length - 2];
-        lastEntry = 'equalSign';
     } else if (lastEntry == "operator") {
         var tempArray = evalArray.slice(0, evalArray.length - 1);
         evalArray.push(eval(tempArray.join('')));
         tempNum = evalArray[evalArray.length - 1];
         tempOp = evalArray[evalArray.length - 2];
-        lastEntry = 'equalSign';
+
     } else if (lastEntry == 'equalSign') {
         evalArray.push(tempOp, tempNum);
     }
@@ -113,12 +115,16 @@ function equalSignEntry() {
     //run the calculation on the evalArray
     result = eval(evalArray.join(''));
 
+    tickerDisplay = [evalArray.join(' '), "=", result];
+
     //reset arrays
     entryArray = [];
     evalArray = [];
     evalArray.push(result);
 
     display(result);
+
+    lastEntry = 'equalSign';
 }
 
 function clearEntry(value) {
@@ -126,15 +132,17 @@ function clearEntry(value) {
         evalArray = [];
         lastEntry = null;
         entryArray = [];
+        tickerDisplay = [];
         display('');
     } else if (value == 'C'){
         entryArray = [];
+        tickerDisplay = [evalArray.join(' ')];
         display('');
     } else {
         entryArray.pop();
+        tickerDisplay = [evalArray.join(' '), entryArray.join('')];
         display(entryArray.join(''));
     }
-
 }
 
 //object constructor

@@ -72,14 +72,24 @@ function numberEntry(value) {
 }
 
 function decimalEntry() {
-    if (lastEntry == 'equalSign') {
+    //LF START
+    //begin conditional which checks if an equal was entered last
+    if (lastEntry == 'equalSign'){
+        //empty the evaluation array
         evalArray = [];
+    //end the conditional
     }
+    //begin conditional which checks to see if there is a decimal in the current number being entered
     if (entryArray.indexOf(".") == -1) {
+        //if not, add a decimal to the array of items being entered
         entryArray.push(".");
+        //define which kind of thing was entered last
         lastEntry = 'number';
+    //end conditional
     }
+    //call function which shows what has been entered and tell it to show everything that has been entered so far
     display(entryArray.join(''));
+    //LF END
 }
 
 function operatorEntry(value) {
@@ -144,27 +154,49 @@ function clearEntry(value) {
 
 //object constructor
 function Calc() {
-
+//LF START
+    //create a method to call when you click a button (or press a key)
+    //make sure it takes two parameters which identify what kind of thing was clicked and which one in particular
     this.dataEntry = function (type, value) {
+        //create a conditional to call a different function based on what kind of thing was clicked
         switch (type) {
+            //if it was 0-9...
             case 'number':
+                //...call the appropriate function and tell it which one it was
                 numberEntry(value);
+                //get out of the conditional
                 break;
+            //if it was '.' ...
             case 'decimal':
+                //...call the appropriate function
                 decimalEntry();
+                //get out of the conditional
                 break;
+            //if it was "+, -, *, or /" ...
             case 'operator':
+                //...call the appropriate function and tell it which one it was
                 operatorEntry(value);
+                //get out of the conditional
                 break;
+            //if it was "="...
             case 'equalSign':
+                //...call the appropriate function
                 equalSignEntry();
+                //get out of the conditional
                 break;
+            //if it was "'AC', 'C', or 'B' ...
             case 'clear':
+                //...call the appropriate function and tell it which one it was
                 clearEntry(value);
+                //get out of the conditional
                 break;
+            //do nothing if it is anything else
             default:
+        //end conditional
         }
-    }
+    //end method
+    };
+    //LF END
 }
 
 

@@ -72,6 +72,9 @@ function numberEntry(value) {
 }
 
 function decimalEntry() {
+    if (lastEntry == 'equalSign') {
+        evalArray = [];
+    }
     if (entryArray.indexOf(".") == -1) {
         entryArray.push(".");
         lastEntry = 'number';

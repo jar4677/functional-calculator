@@ -52,8 +52,10 @@ function display(value) {
     if (value.length >= 16){
         value = parseFloat(value).toExponential(2);
     }
-    $("#readout").attr('value', value);
-    $("#ticker").text(tickerDisplay.join(' '));
+    // $("#readout").attr('value', value);
+    $("#readout").text(value);
+    // $("#ticker").text(tickerDisplay.join(' '));
+    $(".ticker").text(tickerDisplay.join(' '));
 }
 
 //entry type functions

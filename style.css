@@ -30,25 +30,35 @@ body {
     padding: 0 .95em;
 }
 
-#ticker {
+/*#ticker {*/
+    /*width: 80%;*/
+    /*font-size: 14px;*/
+    /*margin: 0;*/
+    /*position: absolute;*/
+    /*top: 15%;*/
+    /*right: 10%;*/
+/*}*/
+
+.ticker {
     width: 80%;
     font-size: 14px;
     margin: 0;
     position: absolute;
     top: 15%;
     right: 10%;
+    text-align: right;
+    border: none;
+    resize: none;
 }
 
 #readout {
+    height: 30%;
     width: 80%;
     margin: 0;
     position: absolute;
     bottom: 0;
     right: 10%;
     font-size: 34px;
-    border: none;
-    text-overflow: ellipsis;
-    text-align: right;
 }
 
 .button-area {

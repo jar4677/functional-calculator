@@ -49,7 +49,9 @@ function keyPress(key) {
 
 //readout function
 function display(value) {
-    // $("#readout").text(value);
+    if (value.length >= 16){
+        value = parseFloat(value).toExponential(2);
+    }
     $("#readout").attr('value', value);
     $("#ticker").text(tickerDisplay.join(' '));
 }
@@ -116,12 +118,18 @@ function equalSignEntry() {
     //run the calculation on the evalArray
     result = eval(evalArray.join(''));
 
-    tickerDisplay = [evalArray.join(' '), "=", result];
-
-    //reset arrays
-    entryArray = [];
-    evalArray = [];
-    evalArray.push(result);
+    // account for /0 and long numbers
+    if (result == "Infinity"){
+        result = "Error";
+        tickerDisplay = [evalArray.join(' '), "=", result];
+        entryArray = [];
+        evalArray = [];
+    } else {
+        tickerDisplay = [evalArray.join(' '), "=", result];
+        entryArray = [];
+        evalArray = [];
+        evalArray.push(result);
+    }
 
     display(result);
 

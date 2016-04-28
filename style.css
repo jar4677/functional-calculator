@@ -31,7 +31,7 @@ body {
 }
 
 #ticker {
-    /*height: 1em;*/
+    width: 80%;
     font-size: 14px;
     margin: 0;
     position: absolute;
@@ -40,10 +40,15 @@ body {
 }
 
 #readout {
+    width: 80%;
     margin: 0;
     position: absolute;
-    bottom: 0px;
+    bottom: 0;
     right: 10%;
+    font-size: 34px;
+    border: none;
+    text-overflow: ellipsis;
+    text-align: right;
 }
 
 .button-area {

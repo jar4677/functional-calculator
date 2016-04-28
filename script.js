@@ -49,7 +49,8 @@ function keyPress(key) {
 
 //readout function
 function display(value) {
-    $("#readout").text(value);
+    // $("#readout").text(value);
+    $("#readout").attr('value', value);
     $("#ticker").text(tickerDisplay.join(' '));
 }
 

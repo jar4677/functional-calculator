@@ -108,7 +108,20 @@ function equalSignEntry() {
         tempNum = evalArray[evalArray.length - 1];
         tempOp = evalArray[evalArray.length - 2];
     } else if (lastEntry == "operator") {
-        var tempArray = evalArray.slice(0, evalArray.length - 1);
+        //get what the last operator entered was
+        var lastOperator = evalArray[evalArray.length -1];
+
+        //conditional to handle if the last operator was multiply or divide
+        var startingIndex = 0;
+        if (lastOperator == "*" || lastOperator == "/"){
+            for(var i = 1; i < evalArray.length -1; i++){
+                if (evalArray[i] == "+" || evalArray[i] == '-'){
+                    startingIndex = i + 1;
+                }
+            }
+        }
+
+        var tempArray = evalArray.slice(startingIndex, evalArray.length - 1);
         evalArray.push(eval(tempArray.join('')));
         tempNum = evalArray[evalArray.length - 1];
         tempOp = evalArray[evalArray.length - 2];

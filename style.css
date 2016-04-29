@@ -30,25 +30,15 @@ body {
     padding: 0 .95em;
 }
 
-/*#ticker {*/
-    /*width: 80%;*/
-    /*font-size: 14px;*/
-    /*margin: 0;*/
-    /*position: absolute;*/
-    /*top: 15%;*/
-    /*right: 10%;*/
-/*}*/
-
-.ticker {
+#ticker {
+    height: 50%;
     width: 80%;
     font-size: 14px;
     margin: 0;
     position: absolute;
     top: 15%;
     right: 10%;
-    text-align: right;
-    border: none;
-    resize: none;
+    overflow: hidden;
 }
 
 #readout {

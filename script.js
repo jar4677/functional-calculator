@@ -10,6 +10,42 @@ var tempNum = null;
 var tempOp = null;
 var tickerDisplay = [];
 
+//event handlers
+$(document).ready(function () {
+    // $('body').on('keypress', keyPress);
+    
+    $('body').bind('keypress keyup', function (event) {
+        var key = null;
+        if (event.type == 'keypress') {
+            key = String.fromCharCode(event.which);
+            if(event.which == 13){
+                key = '=';
+            }
+        } else if (event.type == 'keyup'){
+            var keyCode = event.keyCode;
+            if (keyCode == 27) {
+                key = 'AC';
+            } else if (keyCode == 46 ){
+                key = 'C'
+            } else if (keyCode == 8){
+                key = 'B'
+            }
+            
+        }
+        
+        if (key != null){
+            keyPress(key);
+        }
+    });
+    
+    $(".button").click(function () {
+        var type = $(this).attr("data-type");
+        var value = $(this).attr("data-value");
+        
+        calculator.dataEntry(type, value);
+    })
+});
+
 //keypress function (rework)
 function keyPress(key) {
     //calls method based on the value of the key
@@ -52,10 +88,9 @@ function display(value) {
     if (value.length >= 16){
         value = parseFloat(value).toExponential(2);
     }
-    // $("#readout").attr('value', value);
+
     $("#readout").text(value);
-    // $("#ticker").text(tickerDisplay.join(' '));
-    $(".ticker").text(tickerDisplay.join(' '));
+    $("#ticker").text(tickerDisplay.join(' '));
 }
 
 //entry type functions
@@ -99,6 +134,7 @@ function operatorEntry(value) {
 }
 
 function equalSignEntry() {
+    //conditional based on last thing entered
     if (lastEntry == "number") {
         if (evalArray.length == 0) {
             evalArray.push(parseFloat(entryArray.join('')), tempOp, tempNum);
@@ -110,7 +146,7 @@ function equalSignEntry() {
     } else if (lastEntry == "operator") {
         //get what the last operator entered was
         var lastOperator = evalArray[evalArray.length -1];
-
+        
         //conditional to handle if the last operator was multiply or divide
         var startingIndex = 0;
         if (lastOperator == "*" || lastOperator == "/"){
@@ -122,7 +158,7 @@ function equalSignEntry() {
         }
 
         var tempArray = evalArray.slice(startingIndex, evalArray.length - 1);
-        evalArray.push(eval(tempArray.join('')));
+        evalArray.push(calculate(tempArray));
         tempNum = evalArray[evalArray.length - 1];
         tempOp = evalArray[evalArray.length - 2];
 
@@ -130,22 +166,18 @@ function equalSignEntry() {
         evalArray.push(tempOp, tempNum);
     }
 
-    //run the calculation on the evalArray
-    result = eval(evalArray.join(''));
+    //store the evaluation for display
+    var evaluation = evalArray.join('');
 
-    // account for /0 and long numbers
+    //run the calculation on the evalArray
+    result = calculate(evalArray);
+
+    // account for /0
     if (result == "Infinity"){
         result = "Error";
-        tickerDisplay = [evalArray.join(' '), "=", result];
-        entryArray = [];
-        evalArray = [];
-    } else {
-        tickerDisplay = [evalArray.join(' '), "=", result];
-        entryArray = [];
-        evalArray = [];
-        evalArray.push(result);
     }
 
+    tickerDisplay = [evaluation, "=", result];
     display(result);
 
     lastEntry = 'equalSign';
@@ -167,6 +199,36 @@ function clearEntry(value) {
         tickerDisplay = [evalArray.join(' '), entryArray.join('')];
         display(entryArray.join(''));
     }
+}
+
+//calculation function
+function calculate(array){
+    //loop through doing multiplication and division from left to right
+    for (var i = 1; i < array.length -1; i){
+        if (array[i] == '*'){
+            var product = array[i-1] * array[i+1];
+            array.splice(i-1, 3, product);
+        } else if (array[i] == '/') {
+            var quotient = array[i-1] / array[i+1];
+            array.splice(i-1, 3, quotient);
+        } else {
+            i++;
+        }
+    }
+    //loop through again doing addition and subtraction
+    for (var i = 1; i < array.length -1; i){
+        if (array[i] == '+'){
+            var sum = array[i-1] + array[i+1];
+            array.splice(i-1, 3, sum);
+        } else if (array[i] == '-') {
+            var difference = array[i-1] - array[i+1];
+            array.splice(i-1, 3, difference);
+        } else {
+            i++;
+        }
+    }
+
+    return array[0];
 }
 
 //object constructor
@@ -194,80 +256,5 @@ function Calc() {
     }
 }
 
-
 //object instantiation
 var calculator = new Calc();
-
-//event handlers
-$(document).ready(function () {
-    // $('body').on('keypress', keyPress);
-
-    $('body').bind('keypress keyup', function (event) {
-        var key = null;
-        if (event.type == 'keypress') {
-            key = String.fromCharCode(event.which);
-            if(event.which == 13){
-                key = '=';
-            }
-        } else if (event.type == 'keyup'){
-            var keyCode = event.keyCode;
-            if (keyCode == 27) {
-                key = 'AC';
-            } else if (keyCode == 46 ){
-                key = 'C'
-            } else if (keyCode == 8){
-                key = 'B'
-            }
-
-        }
-
-        if (key != null){
-            keyPress(key);
-        }
-    });
-
-    $(".button").click(function () {
-        var type = $(this).attr("data-type");
-        var value = $(this).attr("data-value");
-
-        calculator.dataEntry(type, value);
-    })
-});
-
-
-/* v0.5 code
- function callback(type, value, item) {
-
- switch (value) {
- case undefined:
- $('#readout').text("");
- break;
- default:
- $('#readout').text(value);
- break;
- }
- }
-
- var myCalculator = new calculator(callback);
-
- $(document).ready(function () {
-
- $(".button").click(function () {
-
- var val = $(this).text();
-
- console.log(val);
- switch (val){
- case 'C':
- myCalculator.clear();
- break;
- case 'AC':
- myCalculator.allClear();
- break;
- default:
- myCalculator.addItem(val);
- }
-
- });
- });
- */

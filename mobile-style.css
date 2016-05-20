@@ -1,0 +1,88 @@
+/*Style Sheet for mobile*/
+
+@media screen and (max-width: 667px) {
+    .calculator {
+        height: 100vh;
+        width: 100vw;
+        position: relative;
+        top: 0;
+        display: inline-block;
+        margin: auto;
+    }
+
+    .readout {
+        padding: .4em;
+        /*background-color: brown;*/
+    }
+
+    .digits {
+        height: 100%;
+        width: 60%;
+    }
+
+    .operators {
+        height: 75%;
+        width: 40%;
+    }
+
+    .clear {
+        height: 25%;
+        width: 40%;
+        float: left;
+        clear: none;
+        font-size: 26px;
+    }
+
+    .operators .button {
+        height: 50%;
+        width: 50%;
+        padding: .95em;
+    }
+
+    .button {
+        padding: .65em;
+    }
+
+    .button:hover {
+        background-color: white;
+        color: black;
+    }
+
+@media screen and (max-width: 400px) {
+    .readout {
+        padding: 1.125em;
+    }
+
+    .digits {
+        height: 80%;
+        width: 75%;
+    }
+
+    .operators {
+        height: 80%;
+        width: 25%;
+    }
+
+    .clear {
+        height: 20%;
+        width: 100%;
+        clear: both;
+    }
+
+    .button {
+        padding: .95em;
+    }
+
+    .operators .button {
+        height: 25%;
+        width: 100%;
+    }
+
+    .clear .button {
+        height: 100%;
+        width: 50%;
+        float: left;
+        font-size: 33px;
+        border-radius: 50% / 100%;
+    }
+}
